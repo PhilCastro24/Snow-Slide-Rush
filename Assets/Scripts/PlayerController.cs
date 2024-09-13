@@ -9,10 +9,12 @@ public class PlayerController : MonoBehaviour
 
     bool canMove = true;
 
-    [SerializeField] float tourgueAmount = 1f;
+    [SerializeField] float torqueAmount = 1f;
+
     [SerializeField] float normalSpeed = 20;
-    [SerializeField] float BoostSpeed = 30;
-    [SerializeField] float JumpForce = 10000;
+    [SerializeField] float boostSpeed = 30;
+
+    [SerializeField] float jumpForce = 10f; // changed 10000 to 10f, because for some reason 10000 was not recognized as float number
 
     [SerializeField] LayerMask groundLayer;
 
@@ -42,11 +44,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            rb2d.AddTorque(tourgueAmount);
+            rb2d.AddTorque(torqueAmount);
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            rb2d.AddTorque(-tourgueAmount);
+            rb2d.AddTorque(-torqueAmount);
         }
     }
 
@@ -54,13 +56,18 @@ public class PlayerController : MonoBehaviour
     {
         if (!myCapsuleCollider.IsTouchingLayers(groundLayer))
         {
-            Debug.Log("Player is not Touching the ground, cannot Jump");
+            //Debug.Log("Player is not Touching the ground, cannot Jump");
             return;
         }
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Jump detected");
-            rb2d.AddForce(Vector2.up * JumpForce,ForceMode2D.Impulse);
+
+            // rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+            // changed jump implementaion after changing variable on line 17
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce); 
         }
     }
 
@@ -68,8 +75,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            surfaceEffector2D.speed = BoostSpeed;
+            surfaceEffector2D.speed = boostSpeed;
         }
+        
         else
         {
             surfaceEffector2D.speed = normalSpeed;
