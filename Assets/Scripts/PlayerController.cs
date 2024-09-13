@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float normalSpeed = 20;
     [SerializeField] float boostSpeed = 30;
+    [SerializeField] float slowSpeed = 10;
+    [SerializeField] float originalSpeed = 20;
 
     [SerializeField] float jumpForce = 10f; // changed 10000 to 10f, because for some reason 10000 was not recognized as float number
 
@@ -67,6 +69,21 @@ public class PlayerController : MonoBehaviour
             // changed jump implementaion after changing variable on line 17
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce); 
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            StartCoroutine(SlowDownPlayer());
+        }
+    }
+
+    IEnumerator SlowDownPlayer()
+    {
+        normalSpeed = slowSpeed;
+        yield return new WaitForSeconds(2);
+        normalSpeed = originalSpeed;
     }
 
     void RespondToBoost()
