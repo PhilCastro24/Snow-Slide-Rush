@@ -7,17 +7,7 @@ public class FinishLine : MonoBehaviour
 {
     [SerializeField] ParticleSystem finishEffect;
 
-    AudioSource winSound;
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    // AudioSource winSound; // you don't need AudioSource
 
     private void OnTriggerEnter2D(Collider2D other)
     {
