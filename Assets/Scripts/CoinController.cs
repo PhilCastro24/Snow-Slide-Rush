@@ -1,35 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CoinController : MonoBehaviour
 {
-    public int coins = 0;
-    
+    [SerializeField] int pointsForCoinPickup = 1;
+    static int score = 0;
+    [SerializeField] TextMeshProUGUI coinsText;
 
-    void Start()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        
-    }
-
-
-    void Update()
-    {
-        Debug.Log(coins);
-    }
-
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            IncrementingCoins();
+            AddToScore(pointsForCoinPickup);
             Destroy(gameObject);
         }
     }
 
-    public void IncrementingCoins(int coinValue = 1)
+    public void AddToScore(int pointsToAdd)
     {
-
-        coins += coinValue;
+        score += pointsToAdd;
+        Debug.Log("Coins collected: " + score);
+        coinsText.text = "Coins: " + score.ToString();
     }
 }
