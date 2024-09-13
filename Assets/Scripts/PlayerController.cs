@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2d;
     SurfaceEffector2D surfaceEffector2D;
 
-    int coins = 0;
-
     bool canMove = true;
 
     [SerializeField] float torqueAmount = 1f;
@@ -27,7 +25,6 @@ public class PlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         surfaceEffector2D = FindObjectOfType<SurfaceEffector2D>();
         myCapsuleCollider = GetComponentInChildren<CapsuleCollider2D>();
-
     }
 
 
@@ -38,19 +35,8 @@ public class PlayerController : MonoBehaviour
             RotatePlayer();
             RespondToBoost();
             Jump();
-            Debug.Log(coins);
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Coin"))
-        {
-            coins++;
-            Destroy(other.gameObject);
-        }
-    }
-
 
     void RotatePlayer()
     {
